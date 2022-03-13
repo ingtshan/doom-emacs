@@ -49,7 +49,7 @@ like =ivy= and =helm= do. The primary packages are:
 
 ** Module Flags
 + =+icons= Adds icons to =file= and =buffer= category completion selections.
-
++ =+posframe= Use posframe
 ** Plugins
 + [[https://github.com/minad/vertico][vertico]]
 + [[https://github.com/minad/consult][consult]]

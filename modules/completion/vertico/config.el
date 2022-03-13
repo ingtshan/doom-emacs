@@ -31,6 +31,8 @@ overrides `completion-styles' during company completion sessions.")
   (add-hook 'minibuffer-setup-hook #'vertico-repeat-save)
   (map! :map vertico-map [backspace] #'vertico-directory-delete-char))
 
+(when (featurep! +posframe)
+  (load! "+posframe"))
 
 (use-package! orderless
   :after-call doom-first-input-hook

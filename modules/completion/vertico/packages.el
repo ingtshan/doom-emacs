@@ -1,4 +1,4 @@
-;; -*- no-byte-compile: t; -*-
+;; -*-no-byte-compile: t; -*-
 ;;; completion/vertico/packages.el
 
 (package! vertico
@@ -22,3 +22,6 @@
 
 (when (featurep! +icons)
   (package! all-the-icons-completion :pin "9e7d456b0934ecb568b6f05a8445e3f4ce32261f"))
+
+(when (featurep! +posframe)
+  (package! vertico-posframe))
