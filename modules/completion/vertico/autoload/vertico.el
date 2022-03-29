@@ -27,7 +27,7 @@
                   (unless recursive "--maxdepth 1 ")
                   "--null --line-buffered --color=never --max-columns=1000 "
                   "--path-separator /   --smart-case --no-heading --line-number "
-                  "--hidden -g !.git -g !TAGS "
+                  "--hidden -g !.git -g !.svn -g !.hg -g !TAGS "
                   (mapconcat #'shell-quote-argument args " ")
                   " ."))
          (prompt (if (stringp prompt) (string-trim prompt) "Search"))
