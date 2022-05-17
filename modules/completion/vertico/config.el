@@ -29,7 +29,7 @@ overrides `completion-styles' during company completion sessions.")
   ;; cleans ~/foo/bar/// to /, and ~/foo/bar/~/ to ~/.
   (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
   (add-hook 'minibuffer-setup-hook #'vertico-repeat-save)
-  (map! :map vertico-map [backspace] #'vertico-directory-delete-char))
+  (map! :map vertico-map "DEL" #'vertico-directory-delete-char))
 
 (when (featurep! +posframe)
   (load! "+posframe"))
@@ -160,6 +160,7 @@ orderless."
          ("C-x C-d" . consult-dir)
          ("C-x C-j" . consult-dir-jump-file)))
 
+
 (use-package! consult-flycheck
   :when (featurep! :checkers syntax)
   :after (consult flycheck))
@@ -175,7 +176,7 @@ orderless."
         (:map minibuffer-local-map
          "C-;"               #'embark-act
          "C-c C-;"           #'embark-export
-         "C-c C-s"           #'embark-collect-snapshot
+         "C-c C-l"           #'embark-collect
          :desc "Export to writable buffer" "C-c C-e" #'+vertico/embark-export-write)
         (:leader
          :desc "Actions" "a" #'embark-act)) ; to be moved to :config default if accepted
@@ -235,17 +236,7 @@ orderless."
             '(projectile-find-file . project-file)
             '(projectile-recentf . project-file)
             '(projectile-switch-to-buffer . buffer)
-            '(projectile-switch-project . project-file))
-
-  ;; HACK minad/marginalia#127 adds annotation to read-library-name, but
-  ;;   compression errors (or any errors while reading compressed files) will
-  ;;   break completion entirely. This advice suppresses those errors and
-  ;;   degrades gracefully.
-  ;; TODO PR error handling upstream.
-  (defadvice! +vertico--suppress-errors-a (fn &rest args)
-    :around #'marginalia--library-doc
-    (letf! ((#'jka-compr-error #'ignore))
-      (ignore-errors (apply fn args)))))
+            '(projectile-switch-project . project-file)))
 
 
 (use-package! embark-consult
@@ -257,3 +248,10 @@ orderless."
 (use-package! wgrep
   :commands wgrep-change-to-wgrep-mode
   :config (setq wgrep-auto-save-buffer t))
+
+
+(use-package! vertico-posframe
+  :when (featurep! +childframe)
+  :hook (vertico-mode . vertico-posframe-mode)
+  :config
+  (add-hook 'doom-after-reload-hook #'posframe-delete-all))

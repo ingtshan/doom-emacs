@@ -46,18 +46,10 @@
        :description "workspace")
       (memq buf (+workspace-buffer-list qualifier)))
 
-    (defun +ibuffer-workspace (workspace-name)
-      "Open an ibuffer window for a workspace"
-      (ibuffer nil (format "%s buffers" workspace-name)
-               (list (cons 'workspace-buffers (+workspace-get workspace-name)))))
-
-    (defun +ibuffer/open-for-current-workspace ()
-      "Open an ibuffer window for the current workspace"
-      (interactive)
-      (+ibuffer-workspace (+workspace-current-name))))
+    (define-key ibuffer-mode-map [remap ibuffer-visit-buffer] #'+ibuffer/visit-workspace-buffer))
 
   (when (featurep! :completion ivy)
-    (defadvice! +ibuffer-use-counsel-maybe-a (_file &optional _wildcards)
+    (defadvice! +ibuffer--use-counsel-maybe-a (_file &optional _wildcards)
       "Use `counsel-find-file' instead of `find-file'."
       :override #'ibuffer-find-file
       (interactive
